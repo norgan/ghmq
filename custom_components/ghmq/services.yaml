@@ -1,0 +1,90 @@
+send_event:
+  name: Send notification event
+  description: Write one bounded, outbound notification event to the configured relay branch.
+    Sending must first be enabled in the integration options. Event text and the optional
+    entity ID are written to the configured GitHub repository and are visible to anyone with
+    access. Do not include secrets, credentials, or sensitive personal details. A response
+    of accepted means GitHub accepted the event file; it does not confirm consumer processing
+    or notification delivery. An error or cancellation may still leave an event durably queued
+    for retry until expiry. Reuse a stable event ID with identical content when retrying.
+  fields:
+    config_entry_id:
+      name: GHMQ integration
+      description: Select the configured destination. Required when more than one GHMQ integration
+        is loaded. The action cannot override the repository, branch, pull request, or credential.
+      selector:
+        config_entry:
+          integration: ghmq
+    event_type:
+      name: Event type
+      description: A short category, 1 to 64 characters. Start with a lowercase letter; use
+        lowercase letters, numbers, underscores, periods, or hyphens.
+      required: true
+      example: test.ping
+      selector:
+        text: {}
+    message:
+      name: Message
+      description: Required plain text, 1 to 512 characters. Event text and the optional entity
+        ID are written to the configured GitHub repository and are visible to anyone with
+        access. Do not include secrets, credentials, or sensitive personal details.
+      required: true
+      example: Synthetic GHMQ connectivity check
+      selector:
+        text:
+          multiline: true
+    event_id:
+      name: Stable event ID
+      description: Optional deduplication key, 1 to 96 letters, numbers, underscores, or hyphens.
+        Reuse this ID only with identical event content for retries. Omit it to generate a
+        new ID for every call.
+      example: test-event-001
+      selector:
+        text: {}
+    occurred_at:
+      name: Occurrence time
+      description: Optional ISO-8601 timestamp with a timezone; defaults to the admission
+        time. Expiry is measured from this time. Expired events and timestamps more than 30
+        seconds in the future are rejected.
+      example: '2026-10-09T07:35:00Z'
+      selector:
+        text: {}
+    ttl_seconds:
+      name: Expiry in seconds
+      description: 'Event lifetime from the occurrence time: an integer from 60 to 3600 seconds.
+        Defaults to 300. Retries retain the original expiry.'
+      default: 300
+      selector:
+        number:
+          min: 60
+          max: 3600
+          step: 1
+          mode: box
+          unit_of_measurement: seconds
+    severity:
+      name: Severity
+      description: 'Notification importance: info, warning, or urgent. This does not guarantee
+        how or when a consumer handles the event.'
+      default: info
+      selector:
+        select:
+          options:
+          - info
+          - warning
+          - urgent
+          translation_key: severity
+    synthetic:
+      name: Synthetic event
+      description: Mark an artificial test event. This flag does not anonymize the content
+        or prevent a consumer from acting on it. Use non-sensitive test text. Defaults to
+        off.
+      default: false
+      selector:
+        boolean: {}
+    entity_id:
+      name: Related entity
+      description: Optional Home Assistant entity ID included as text in the GitHub event.
+        The action does not read or include the entity state or attributes. Omit it if the
+        identifier is sensitive.
+      selector:
+        entity: {}

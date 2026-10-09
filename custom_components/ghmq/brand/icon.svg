@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">GHMQ</title>
+  <desc id="desc">Three queued message tiles connected to an outbound arrow.</desc>
+  <rect x="12" y="12" width="232" height="232" rx="56" fill="#0d2538"/>
+  <path d="M69 173h70V83h37" fill="none" stroke="#55dbc7" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m162 65 22 18-22 18" fill="none" stroke="#55dbc7" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="49" y="145" width="58" height="44" rx="11" fill="#55dbc7"/>
+  <rect x="49" y="91" width="58" height="44" rx="11" fill="#4da6ef"/>
+  <rect x="49" y="37" width="58" height="44" rx="11" fill="#d8f3ff"/>
+  <path d="m63 159 15 12 15-12m-30-54 15 12 15-12m-30-54 15 12 15-12" fill="none" stroke="#0d2538" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,11 @@
+# Developer tools -> Actions, or one action in an automation/script.
+# This creates a real GitHub file after sending has been enabled.
+# The omitted event_id generates a new ID for every call.
+# Add config_entry_id using Home Assistant's selector if multiple entries are loaded.
+action: ghmq.send_event
+data:
+  event_type: demo.check
+  message: Synthetic GHMQ connectivity check
+  severity: info
+  synthetic: true
+  ttl_seconds: 300

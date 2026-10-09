@@ -1,0 +1,1 @@
+{"event_id":"example-event-001","event_type":"demo.check","expires_at":"2026-01-01T12:05:00Z","message":"Synthetic GHMQ connectivity check","occurred_at":"2026-01-01T12:00:00Z","schema_version":1,"severity":"info","source":"home_assistant","synthetic":true}

@@ -1,0 +1,19 @@
+# One standalone Home Assistant automation.
+# Trigger intentionally with the local event ghmq_demo_requested.
+# It does not listen to device state and sends only the fixed synthetic text below.
+# Each trigger creates a new event ID; use a stable per-occurrence ID in a
+# separately designed retrying automation. See README.md for retry semantics.
+alias: GHMQ synthetic check
+triggers:
+  - trigger: event
+    event_type: ghmq_demo_requested
+conditions: []
+actions:
+  - action: ghmq.send_event
+    data:
+      event_type: demo.check
+      message: Synthetic GHMQ connectivity check
+      severity: info
+      synthetic: true
+      ttl_seconds: 300
+mode: single

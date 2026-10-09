@@ -1,0 +1,113 @@
+{
+  "title": "GHMQ",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up GHMQ",
+        "description": "Choose an existing private GitHub repository, relay branch, and open pull request. Setup only reads GitHub to verify the destination and pin its repository and pull request IDs. It does not send a test event. Sending starts disabled; enable it in the options after reviewing the destination and privacy implications.",
+        "data": {
+          "owner": "GitHub owner",
+          "repository": "Repository",
+          "branch": "Relay branch",
+          "pull_request_number": "Pull request number",
+          "token": "GitHub access token"
+        },
+        "data_description": {
+          "owner": "The exact user or organization that owns the private repository.",
+          "repository": "The exact repository name, without the owner or a URL. No repository is assumed.",
+          "branch": "An existing relay branch in this repository. The open pull request must use this branch as its head.",
+          "pull_request_number": "The number of the existing open pull request for the relay branch.",
+          "token": "A fine-grained GitHub token limited to this repository, with Contents read/write and Pull requests read permissions. Keep it out of event messages."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnect GHMQ to GitHub",
+        "description": "Enter a replacement token for the same configured destination. The saved repository and pull request IDs must still match; reconnecting cannot approve a different destination or replace missing identity pins. The existing sending option is preserved.",
+        "data": {
+          "token": "Replacement GitHub access token"
+        },
+        "data_description": {
+          "token": "A token for the same pinned private repository, with Contents read/write and Pull requests read permissions."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "GitHub rejected the credential. Check the token, expiry, and repository permissions, then try again.",
+      "cannot_connect": "Cannot validate the GitHub destination. Check connectivity, the private repository, relay branch, and open pull request, then try again.",
+      "identity_changed": "The repository or pull request identity changed, or the saved identity pins are missing. Reconnecting cannot approve this destination. Keep sending disabled and review the integration configuration.",
+      "invalid_pull_request_number": "Enter the existing open pull request number as a whole number of 1 or greater.",
+      "rate_limited": "GitHub requests are paused until {retry_at}. Wait until then before trying again. The saved cooldown also applies after restarting or updating permissions."
+    },
+    "abort": {
+      "already_configured": "This GitHub repository and relay branch are already configured.",
+      "reauth_successful": "The GitHub credential was updated. The pinned destination and sending option were preserved."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "GHMQ sending options",
+        "description": "Sending is initially disabled. Enable it only after reviewing the configured private repository, relay branch, pull request, and who can access them. Enabling also resumes queued, unexpired events. Disabling stops new admissions and automatic retries; it does not recall files already accepted by GitHub. Event text and the optional entity ID are written to the configured GitHub repository and are visible to anyone with access. Do not include secrets, credentials, or sensitive personal details.",
+        "data": {
+          "sending_enabled": "Enable sending"
+        },
+        "data_description": {
+          "sending_enabled": "Allow the send notification event action and automatic retries of queued events for this configured destination. Off by default."
+        }
+      }
+    }
+  },
+  "services": {
+    "send_event": {
+      "name": "Send notification event",
+      "description": "Write one bounded, outbound notification event to the configured relay branch. Sending must first be enabled in the integration options. Event text and the optional entity ID are written to the configured GitHub repository and are visible to anyone with access. Do not include secrets, credentials, or sensitive personal details. A response of accepted means GitHub accepted the event file; it does not confirm consumer processing or notification delivery. An error or cancellation may still leave an event durably queued for retry until expiry. Reuse a stable event ID with identical content when retrying.",
+      "fields": {
+        "config_entry_id": {
+          "name": "GHMQ integration",
+          "description": "Select the configured destination. Required when more than one GHMQ integration is loaded. The action cannot override the repository, branch, pull request, or credential."
+        },
+        "event_type": {
+          "name": "Event type",
+          "description": "A short category, 1 to 64 characters. Start with a lowercase letter; use lowercase letters, numbers, underscores, periods, or hyphens."
+        },
+        "message": {
+          "name": "Message",
+          "description": "Required plain text, 1 to 512 characters. Event text and the optional entity ID are written to the configured GitHub repository and are visible to anyone with access. Do not include secrets, credentials, or sensitive personal details."
+        },
+        "event_id": {
+          "name": "Stable event ID",
+          "description": "Optional deduplication key, 1 to 96 letters, numbers, underscores, or hyphens. Reuse this ID only with identical event content for retries. Omit it to generate a new ID for every call."
+        },
+        "occurred_at": {
+          "name": "Occurrence time",
+          "description": "Optional ISO-8601 timestamp with a timezone; defaults to the admission time. Expiry is measured from this time. Expired events and timestamps more than 30 seconds in the future are rejected."
+        },
+        "ttl_seconds": {
+          "name": "Expiry in seconds",
+          "description": "Event lifetime from the occurrence time: an integer from 60 to 3600 seconds. Defaults to 300. Retries retain the original expiry."
+        },
+        "severity": {
+          "name": "Severity",
+          "description": "Notification importance: info, warning, or urgent. This does not guarantee how or when a consumer handles the event."
+        },
+        "synthetic": {
+          "name": "Synthetic event",
+          "description": "Mark an artificial test event. This flag does not anonymize the content or prevent a consumer from acting on it. Use non-sensitive test text. Defaults to off."
+        },
+        "entity_id": {
+          "name": "Related entity",
+          "description": "Optional Home Assistant entity ID included as text in the GitHub event. The action does not read or include the entity state or attributes. Omit it if the identifier is sensitive."
+        }
+      }
+    }
+  },
+  "selector": {
+    "severity": {
+      "options": {
+        "info": "Information",
+        "warning": "Warning",
+        "urgent": "Urgent"
+      }
+    }
+  }
+}

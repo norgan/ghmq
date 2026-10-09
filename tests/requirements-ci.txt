@@ -1,0 +1,3 @@
+# Tested runtime. Home Assistant pins its own core dependencies.
+homeassistant==2026.10.0
+ruff==0.16.10
