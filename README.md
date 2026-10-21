@@ -4,7 +4,7 @@ GHMQ is an outbound-only Home Assistant event bridge for agents and other receiv
 
 A separate receiver can observe that branch and handle the event. **No receiver, webhook endpoint, GitHub App, or notification service is included.**
 
-> Version **0.1.1** is published in [norgan/ghmq](https://github.com/norgan/ghmq) under the [MIT License](LICENSE). GHMQ is not included in the HACS default catalog. Check [GitHub Actions](https://github.com/norgan/ghmq/actions) for hosted validation status.
+> Version **0.1.1** is published in [norgan/ghmq](https://github.com/norgan/ghmq) under the [MIT License](LICENSE). GHMQ is included in the HACS default catalog. Check [GitHub Actions](https://github.com/norgan/ghmq/actions) for hosted validation status.
 
 ## What this is for
 
@@ -26,6 +26,15 @@ Older and future Home Assistant versions require their own verification. HACS me
 
 ## Install
 
+### HACS (recommended)
+
+GHMQ is included in the HACS default catalog; no custom repository is needed.
+
+1. Open **HACS** in Home Assistant and search for **GHMQ**.
+2. Open GHMQ and download the integration.
+3. Restart Home Assistant.
+4. Open **Settings → Devices & services → Add integration**, then search for **GHMQ**.
+
 ### Manual installation
 
 1. Download the source from this repository. Copy only `custom_components/ghmq` into your Home Assistant configuration directory's `custom_components` directory.
@@ -34,9 +43,9 @@ Older and future Home Assistant versions require their own verification. HACS me
 
 Do not copy a development environment, test evidence, credentials, or another installation's configuration into Home Assistant.
 
-### HACS custom repository
+### HACS custom repository (alternative)
 
-This public repository uses the HACS custom integration layout and is not included in the HACS default catalog. Follow [HACS custom repository instructions](https://www.hacs.xyz/docs/faq/custom_repositories/), add `https://github.com/norgan/ghmq` with type **Integration**, download GHMQ, and restart Home Assistant. Adding a custom repository does not mean HACS has reviewed or endorsed it.
+If GHMQ is not yet visible in your HACS catalog, you can add it manually. Follow [HACS custom repository instructions](https://www.hacs.xyz/docs/faq/custom_repositories/), add `https://github.com/norgan/ghmq` with type **Integration**, download GHMQ, and restart Home Assistant.
 
 ## Prepare a private relay
 
@@ -164,4 +173,4 @@ Git-backed messaging is an existing idea. [GitMQ](https://github.com/emad-elsaid
 
 ## Development and release status
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for reproducible offline tests and review requirements, [CHANGELOG.md](CHANGELOG.md) for version history, and the [receiver contract](docs/receiver-contract.md) for interoperability. HACS default-catalog inclusion is a separate review process. GHMQ is licensed under the [MIT License](LICENSE).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for reproducible offline tests and review requirements, [CHANGELOG.md](CHANGELOG.md) for version history, and the [receiver contract](docs/receiver-contract.md) for interoperability. GHMQ is licensed under the [MIT License](LICENSE).
